@@ -2,6 +2,7 @@ import { useKeyboard, useRenderer } from "@opentui/react";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
 import { LogoArt } from "../components/logo-art";
 import { PromptTextarea } from "../components/prompt-textarea";
+import { RouteInput } from "../components/route-input";
 import { NavBar } from "../components/nav-bar";
 
 export function HomeRoute() {
@@ -23,6 +24,7 @@ export function HomeRoute() {
     >
       <LogoArt />
       <text fg="#888888">Welcome to {JEREMYCODE_NAME}.</text>
+      <RouteInput />
       <PromptTextarea />
       <NavBar active="home" />
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
