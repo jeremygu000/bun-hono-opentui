@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import type { TextareaRenderable } from "@opentui/core";
+import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
 
 export function PromptTextarea() {
   const ref = useRef<TextareaRenderable | null>(null);
@@ -8,19 +9,21 @@ export function PromptTextarea() {
     <box
       border
       borderColor="#7aa2f7"
-      flexDirection="column"
-      padding={1}
+      paddingX={1}
+      paddingY={0}
+      title={`prompt | ask ${JEREMYCODE_NAME} anything`}
+      titleAlignment="left"
+      titleColor="#7aa2f7"
       width="80%"
     >
-      <text fg="#888888">Ask anything. Press Esc to leave the input.</text>
       <textarea
         ref={ref}
-        initialValue=""
-        placeholder={`Try: "What can ${""}this CLI do?"`}
-        width="100%"
-        height={6}
-        wrapMode="word"
         focused
+        height={6}
+        initialValue=""
+        placeholder='Try: "What can this CLI do?"'
+        width="100%"
+        wrapMode="word"
       />
     </box>
   );
