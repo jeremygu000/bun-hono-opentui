@@ -13,6 +13,8 @@ A minimal Bun workspace monorepo with a Hono server and an OpenTUI CLI.
 | [`apps/server`](./apps/server) | Lightweight Hono HTTP server running on Bun. |
 | [`apps/cli`](./apps/cli) | OpenTUI welcome screen running in the terminal. |
 
+![OpenTUI CLI home screen](./docs/images/jeremycode-homescreen.png)
+
 ## Getting Started
 
 Install all workspace dependencies from the repository root:
@@ -33,7 +35,7 @@ Start the OpenTUI CLI:
 bun run dev:cli
 ```
 
-Press `q` or `Ctrl+C` to exit the CLI. The server exposes `GET /` and `GET /health`.
+Press `q` or `Ctrl+C` to exit the CLI. The server exposes `GET /` and `GET /health`. The CLI renders the home screen shown at the top of the README.
 
 ## Scripts
 
