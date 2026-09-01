@@ -1,11 +1,14 @@
 # Repository Guide
 
-## Workspace Layout
+## File Naming and Structure Conventions
 
-- `apps/server` is the Bun/Hono HTTP server; its entrypoint is `apps/server/src/index.ts` and its health endpoint is `GET /health`.
-- `apps/cli` is the OpenTUI React CLI; its entrypoint is `apps/cli/src/index.tsx`.
-- Put future reusable libraries in `packages/*`; the root workspace globs are `apps/*` and `packages/*`.
-- Package `tsconfig.json` files extend `tsconfig.base.json`; keep framework-specific options, such as OpenTUI JSX settings, in the owning app config.
+- Filenames use `kebab-case.ts` / `kebab-case.tsx` (e.g. `prompt-textarea.tsx`). Export the matching PascalCase symbol (e.g. `PromptTextarea`).
+- Within an app or package, group code by role:
+  - `src/index.{ts,tsx}` is the entrypoint and stays minimal (renderer setup, root render).
+  - `src/components/` holds reusable, presentational pieces (each component in its own file).
+  - `src/screens/` holds page-level compositions that wire components, state, and side effects.
+  - `src/lib/` (or similar) holds framework-agnostic helpers when needed.
+- Add new reusable libraries under `packages/<name>/` with a workspace `package.json` and its own `tsconfig.json` extending the base.
 
 ## Commands
 
