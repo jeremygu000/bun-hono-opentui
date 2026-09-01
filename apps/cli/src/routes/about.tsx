@@ -1,6 +1,7 @@
 import { useKeyboard, useRenderer } from "@opentui/react";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
 import { NavBar } from "../components/nav-bar";
+import { RouteInput } from "../components/route-input";
 
 export function AboutRoute() {
   const renderer = useRenderer();
@@ -22,6 +23,7 @@ export function AboutRoute() {
       <text fg="#7aa2f7">About</text>
       <text>{JEREMYCODE_NAME} is a small Bun + Hono + OpenTUI monorepo.</text>
       <text fg="#888888">Built on the OpenTUI React reconciler.</text>
+      <RouteInput />
       <NavBar active="about" />
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>

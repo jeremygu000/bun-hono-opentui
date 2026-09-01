@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { isRoutePath, routes } from "../routes";
+import { useLocation, useNavigate } from "react-router";
+import { isRoutePath } from "../routes";
 
-const PLACEHOLDER = `Type a route (e.g. ${routes.about}) and press Enter`;
+function buildPlaceholder(currentPath: string): string {
+  const others = (Object.values({
+    home: "/",
+    about: "/about",
+    settings: "/settings",
+  } as const) as string[]).filter((p) => p !== currentPath);
+  const sample = others[0] ?? "/";
+  return `You are at ${currentPath}. Try ${sample}`;
+}
 
 export function RouteInput() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
 
@@ -30,14 +39,13 @@ export function RouteInput() {
       padding={1}
       width="80%"
     >
-      <text fg="#7aa2f7">lightcode | route</text>
+      <text fg="#7aa2f7">lightcode | route {pathname}</text>
       <input
         value={value}
         onChange={setValue}
         onSubmit={(next) => submit(next as string)}
-        placeholder={PLACEHOLDER}
+        placeholder={buildPlaceholder(pathname)}
         width="100%"
-        focused
       />
       {error ? <text fg="#f7768e">{error}</text> : null}
     </box>

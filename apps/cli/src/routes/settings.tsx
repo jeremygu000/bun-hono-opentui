@@ -1,6 +1,7 @@
 import { useKeyboard, useRenderer } from "@opentui/react";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
 import { NavBar } from "../components/nav-bar";
+import { RouteInput } from "../components/route-input";
 
 export function SettingsRoute() {
   const renderer = useRenderer();
@@ -21,6 +22,7 @@ export function SettingsRoute() {
     >
       <text fg="#7aa2f7">Settings</text>
       <text>No settings yet. This is a placeholder for {JEREMYCODE_NAME}.</text>
+      <RouteInput />
       <NavBar active="settings" />
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>
