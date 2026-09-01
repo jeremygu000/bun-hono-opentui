@@ -12,6 +12,7 @@
     "apps/cli": {
       "name": "@bun-hono-opentui/cli",
       "dependencies": {
+        "@bun-hono-opentui/shared": "workspace:*",
         "@opentui/core": "^0.1.73",
         "@opentui/react": "^0.1.73",
         "react": "^19.2.0",
@@ -20,14 +21,20 @@
     "apps/server": {
       "name": "@bun-hono-opentui/server",
       "dependencies": {
+        "@bun-hono-opentui/shared": "workspace:*",
         "hono": "^4.10.7",
       },
+    },
+    "packages/shared": {
+      "name": "@bun-hono-opentui/shared",
     },
   },
   "packages": {
     "@bun-hono-opentui/cli": ["@bun-hono-opentui/cli@workspace:apps/cli"],
 
     "@bun-hono-opentui/server": ["@bun-hono-opentui/server@workspace:apps/server"],
+
+    "@bun-hono-opentui/shared": ["@bun-hono-opentui/shared@workspace:packages/shared"],
 
     "@dimforge/rapier2d-simd-compat": ["@dimforge/rapier2d-simd-compat@0.17.3", "", {}, "sha512-bijvwWz6NHsNj5e5i1vtd3dU2pDhthSaTUZSh14DUGGKJfw8eMnlWZsxwHBxB/a3AXVNDjL9abuHw1k9FGR+jg=="],
 

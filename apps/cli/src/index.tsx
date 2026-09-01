@@ -1,5 +1,6 @@
 import { createCliRenderer } from "@opentui/core";
 import { createRoot, useKeyboard, useRenderer } from "@opentui/react";
+import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
 
 function WelcomeScreen() {
   const renderer = useRenderer();
@@ -17,7 +18,7 @@ function WelcomeScreen() {
       padding={2}
     >
       <text fg="#00d4ff">Bun + Hono + OpenTUI</text>
-      <text>Welcome to your monorepo.</text>
+      <text>Welcome to {JEREMYCODE_NAME}.</text>
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>
   );

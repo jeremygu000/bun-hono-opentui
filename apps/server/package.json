@@ -8,6 +8,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@bun-hono-opentui/shared": "workspace:*",
     "hono": "^4.10.7"
   }
 }

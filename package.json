@@ -7,7 +7,7 @@
     "dev:cli": "bun run --cwd apps/cli dev",
     "start:server": "bun run --cwd apps/server start",
     "start:cli": "bun run --cwd apps/cli start",
-    "typecheck": "bun run --cwd apps/server typecheck && bun run --cwd apps/cli typecheck"
+    "typecheck": "bun run --cwd packages/shared typecheck && bun run --cwd apps/server typecheck && bun run --cwd apps/cli typecheck"
   },
   "devDependencies": {
     "@types/bun": "latest",
