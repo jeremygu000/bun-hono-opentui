@@ -1,8 +1,10 @@
 import { createCliRenderer } from "@opentui/core";
 import { createRoot, useKeyboard, useRenderer } from "@opentui/react";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
+import { LogoArt } from "./LogoArt";
+import { PromptTextarea } from "./PromptTextarea";
 
-function WelcomeScreen() {
+function HomeScreen() {
   const renderer = useRenderer();
 
   useKeyboard((key) => {
@@ -13,16 +15,19 @@ function WelcomeScreen() {
     <box
       alignItems="center"
       flexDirection="column"
+      gap={1}
       height="100%"
       justifyContent="center"
       padding={2}
+      width="100%"
     >
-      <text fg="#00d4ff">Bun + Hono + OpenTUI</text>
-      <text>Welcome to {JEREMYCODE_NAME}.</text>
+      <LogoArt />
+      <text fg="#888888">Welcome to {JEREMYCODE_NAME}.</text>
+      <PromptTextarea />
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>
   );
 }
 
 const renderer = await createCliRenderer({ exitOnCtrlC: true });
-createRoot(renderer).render(<WelcomeScreen />);
+createRoot(renderer).render(<HomeScreen />);
