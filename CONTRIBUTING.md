@@ -26,7 +26,7 @@ Thanks for contributing to this project.
 ## Making Changes
 
 - Keep changes focused and avoid unrelated formatting or refactors.
-- Place server code in `server/src` and CLI code in `cli/src`.
+- Place server code in `apps/server/src` and CLI code in `apps/cli/src`.
 - Put shared TypeScript options in `tsconfig.base.json`; keep package-specific options in the package `tsconfig.json`.
 - Use Bun for installing packages and running scripts. Do not add another package manager lockfile.
 

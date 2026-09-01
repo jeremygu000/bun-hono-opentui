@@ -10,8 +10,8 @@ A minimal Bun workspace monorepo with a Hono server and an OpenTUI CLI.
 
 | Package | Description |
 | --- | --- |
-| [`server`](./server) | Lightweight Hono HTTP server running on Bun. |
-| [`cli`](./cli) | OpenTUI welcome screen running in the terminal. |
+| [`apps/server`](./apps/server) | Lightweight Hono HTTP server running on Bun. |
+| [`apps/cli`](./apps/cli) | OpenTUI welcome screen running in the terminal. |
 
 ## Getting Started
 

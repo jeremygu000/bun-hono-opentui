@@ -1,16 +1,16 @@
 {
   "name": "bun-hono-opentui",
   "private": true,
-  "workspaces": ["server", "cli"],
+  "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "dev:server": "bun run --cwd server dev",
-    "dev:cli": "bun run --cwd cli dev",
-    "start:server": "bun run --cwd server start",
-    "start:cli": "bun run --cwd cli start",
-    "typecheck": "bun run --cwd server typecheck && bun run --cwd cli typecheck"
+    "dev:server": "bun run --cwd apps/server dev",
+    "dev:cli": "bun run --cwd apps/cli dev",
+    "start:server": "bun run --cwd apps/server start",
+    "start:cli": "bun run --cwd apps/cli start",
+    "typecheck": "bun run --cwd apps/server typecheck && bun run --cwd apps/cli typecheck"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   }
 }

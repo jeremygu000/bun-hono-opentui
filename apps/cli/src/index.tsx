@@ -1,9 +1,11 @@
 import { createCliRenderer } from "@opentui/core";
-import { createRoot, useKeyboard } from "@opentui/react";
+import { createRoot, useKeyboard, useRenderer } from "@opentui/react";
 
 function WelcomeScreen() {
+  const renderer = useRenderer();
+
   useKeyboard((key) => {
-    if (key.name === "q") process.exit(0);
+    if (key.name === "q") renderer.destroy();
   });
 
   return (
