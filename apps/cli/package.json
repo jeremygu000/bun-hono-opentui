@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "@bun-hono-opentui/shared": "workspace:*",
-    "@opentui/core": "^0.1.73",
-    "@opentui/react": "^0.1.73",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "@opentui/core": "^0.5.10",
+    "@opentui/react": "^0.5.10",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-router": "^8.3.1"
   },
   "devDependencies": {
-    "@types/react": "^19.2.0",
-    "@types/react-dom": "^19.2.0"
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5"
   }
 }
