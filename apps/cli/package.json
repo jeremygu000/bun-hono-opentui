@@ -11,7 +11,8 @@
     "@bun-hono-opentui/shared": "workspace:*",
     "@opentui/core": "^0.1.73",
     "@opentui/react": "^0.1.73",
-    "react": "^19.2.0"
+    "react": "^19.2.0",
+    "react-router": "^7.9.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.0"

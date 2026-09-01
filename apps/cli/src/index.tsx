@@ -1,6 +1,8 @@
 import { createCliRenderer } from "@opentui/core";
 import { createRoot } from "@opentui/react";
-import { HomeScreen } from "./screens/home-screen";
+import { RouterProvider } from "react-router/dom";
+import { createAppRouter } from "./router";
 
 const renderer = await createCliRenderer({ exitOnCtrlC: true });
-createRoot(renderer).render(<HomeScreen />);
+const router = createAppRouter();
+createRoot(renderer).render(<RouterProvider router={router} />);

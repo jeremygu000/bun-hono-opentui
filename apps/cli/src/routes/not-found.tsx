@@ -1,9 +1,7 @@
 import { useKeyboard, useRenderer } from "@opentui/react";
-import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
-import { LogoArt } from "../components/logo-art";
-import { PromptTextarea } from "../components/prompt-textarea";
+import { NavBar } from "../components/nav-bar";
 
-export function HomeScreen() {
+export function NotFoundRoute() {
   const renderer = useRenderer();
 
   useKeyboard((key) => {
@@ -20,9 +18,9 @@ export function HomeScreen() {
       padding={2}
       width="100%"
     >
-      <LogoArt />
-      <text fg="#888888">Welcome to {JEREMYCODE_NAME}.</text>
-      <PromptTextarea />
+      <text fg="#f7768e">404</text>
+      <text>That screen does not exist.</text>
+      <NavBar active="home" />
       <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>
   );
