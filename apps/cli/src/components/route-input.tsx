@@ -35,9 +35,8 @@ export function RouteInput() {
       borderColor={error ? "#f7768e" : "#7aa2f7"}
       paddingX={1}
       paddingY={0}
-      title={`lightcode | route ${pathname}`}
+      title={`route ${pathname}`}
       titleAlignment="left"
-      titleColor={error ? "#f7768e" : "#7aa2f7"}
       width="80%"
     >
       <input
