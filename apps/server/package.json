@@ -21,6 +21,7 @@
     "@ai-sdk/openai": "^4.0.56",
     "@bun-hono-opentui/shared": "workspace:*",
     "ai": "^7.0.90",
-    "hono": "^4.13.5"
+    "hono": "^4.13.5",
+    "zod": "^4.5.4"
   }
 }
