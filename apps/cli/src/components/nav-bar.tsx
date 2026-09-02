@@ -4,6 +4,8 @@ const ITEMS: { name: RouteName; label: string }[] = [
   { name: "home", label: "Home" },
   { name: "about", label: "About" },
   { name: "settings", label: "Settings" },
+  { name: "llm", label: "LLM" },
+  { name: "llmTest", label: "LLM Test" },
 ];
 
 export function NavBar({ active }: { active: RouteName }) {
