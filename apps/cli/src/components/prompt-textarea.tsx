@@ -1,9 +1,19 @@
 import { useRef } from "react";
 import type { TextareaRenderable } from "@opentui/core";
+import { useKeyboard } from "@opentui/react";
+import { useNavigate } from "react-router";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
+import { routes } from "../routes";
 
 export function PromptTextarea() {
   const ref = useRef<TextareaRenderable | null>(null);
+  const navigate = useNavigate();
+
+  useKeyboard((key) => {
+    if (key.name === "return" && ref.current?.focused) {
+      navigate(routes.chat);
+    }
+  });
 
   return (
     <box
