@@ -29,6 +29,10 @@
   `AppType` from `@bun-hono-opentui/server/app` and constructs
   `hc<AppType>(API_URL)`. The `./app` subpath plus `import type` keep
   the server bootstrap out of the CLI bundle.
+- Within server ↔ CLI data flows, prefer the typed Hono RPC client
+  (`api.route.method.$get()` / `$post()`) over raw `fetch`. RPC gives
+  full type inference on path, query params, and response shape without
+  any manual URL or JSON serialization code.
 - `@bun-hono-opentui/server` is a `devDependency` of `@bun-hono-opentui/cli`,
   not a runtime dependency.
 

@@ -2,6 +2,7 @@ export const routes = {
   home: "/",
   about: "/about",
   settings: "/settings",
+  llm: "/llm",
 } as const;
 
 export type RouteName = keyof typeof routes;
