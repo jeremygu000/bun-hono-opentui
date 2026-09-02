@@ -1,11 +1,7 @@
-import { Hono } from "hono";
-import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
+import { app } from "./app";
 
-const app = new Hono()
-  .get("/", (c) => c.json({ message: `Welcome to ${JEREMYCODE_NAME}` }))
-  .get("/health", (c) => c.json({ status: "ok" }));
-
-export type AppType = typeof app;
+export type { AppType } from "./app";
+export { app } from "./app";
 
 const port = Number(Bun.env.PORT ?? 3000);
 

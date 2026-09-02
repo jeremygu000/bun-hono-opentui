@@ -8,7 +8,6 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@bun-hono-opentui/server": "workspace:*",
     "@bun-hono-opentui/shared": "workspace:*",
     "@opentui/core": "^0.5.10",
     "@opentui/react": "^0.5.10",
@@ -18,6 +17,7 @@
     "react-router": "^8.3.1"
   },
   "devDependencies": {
+    "@bun-hono-opentui/server": "workspace:*",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5"
   }
