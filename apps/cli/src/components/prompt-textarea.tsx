@@ -11,7 +11,9 @@ export function PromptTextarea() {
 
   useKeyboard((key) => {
     if (key.name === "return" && ref.current?.focused) {
-      navigate(routes.chat);
+      const prompt = ref.current?.plainText ?? "";
+      if (!prompt) return;
+      navigate(routes.chat, { state: { prompt } });
     }
   });
 

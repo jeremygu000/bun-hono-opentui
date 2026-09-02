@@ -4,7 +4,7 @@ import { createTextStreamResponse, toTextStream } from "ai";
 import { createUIMessageStreamResponse, toUIMessageStream } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
-import { promptSchema } from "./schema";
+import { promptSchema } from "@bun-hono-opentui/shared";
 
 const openrouter = createOpenAI({
   baseURL: "https://openrouter.ai/api/v1",

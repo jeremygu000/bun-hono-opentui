@@ -34,11 +34,13 @@
         "@bun-hono-opentui/shared": "workspace:*",
         "ai": "^7.0.90",
         "hono": "^4.13.5",
-        "zod": "^4.5.4",
       },
     },
     "packages/shared": {
       "name": "@bun-hono-opentui/shared",
+      "dependencies": {
+        "zod": "^4.5.4",
+      },
     },
   },
   "packages": {

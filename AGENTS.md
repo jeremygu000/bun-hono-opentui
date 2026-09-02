@@ -36,6 +36,24 @@
 - `@bun-hono-opentui/server` is a `devDependency` of `@bun-hono-opentui/cli`,
   not a runtime dependency.
 
+## Data Validation
+
+- Treat every value that crosses a trust boundary as untyped: HTTP
+  request bodies on the server, fetch responses and React Router
+  `location.state` on the CLI, anything read from `URLSearchParams`,
+  `localStorage`, or an imperative renderable. Parse it with a zod
+  schema before using it.
+- On the server, validate request bodies with Hono's `@hono/zod-validator`
+  middleware bound to a shared schema. Do not hand-roll request parsing.
+- On the CLI, parse values with `schema.safeParse(input)` and gate UI
+  side effects on `parsed.success`. Do not use `as` casts to silence
+  type errors on untrusted data.
+- Schemas that describe a value flowing between server and CLI
+  (e.g. `promptSchema`, `chatStateSchema`) live in
+  `packages/shared/src/index.ts` and are imported by both apps. The
+  server is the source of truth for shape; the CLI uses the same schema
+  to confirm what arrived, not to redefine it.
+
 ## Constraints
 
 - Use Bun for package installation and scripts. Keep the single root `bun.lock` committed; do not add npm, pnpm, or Yarn lockfiles.
