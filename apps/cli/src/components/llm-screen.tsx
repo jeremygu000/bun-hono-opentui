@@ -1,43 +1,17 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import { useCompletion } from "@ai-sdk/react";
 import { useKeyboard, useRenderer } from "@opentui/react";
 import { api } from "../lib/client";
-import { NavBar } from "../components/nav-bar";
-import { RouteInput } from "../components/route-input";
-
-type LlmState =
-  | { status: "loading" }
-  | { status: "ok"; text: string }
-  | { status: "error"; message: string };
+import { NavBar } from "./nav-bar";
+import { RouteInput } from "./route-input";
 
 export function LlmScreen() {
   const renderer = useRenderer();
-  const [llm, setLlm] = useState<LlmState>({ status: "loading" });
-
-  useEffect(() => {
-    let cancelled = false;
-    const prompt = "Say hello in one short sentence.";
-    api.api.llm
-      .$get({ q: prompt })
-      .then(async (res) => {
-        if (!res.ok) {
-          if (!cancelled) setLlm({ status: "error", message: `HTTP ${res.status}` });
-          return;
-        }
-        const data = await res.json();
-        if (!cancelled) setLlm({ status: "ok", text: data.text ?? "" });
-      })
-      .catch((err: unknown) => {
-        if (!cancelled) {
-          setLlm({
-            status: "error",
-            message: err instanceof Error ? err.message : String(err),
-          });
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const [prompt, setPrompt] = useState("");
+  const promptRef = useRef("");
+  const { completion, complete, isLoading, error } = useCompletion({
+    api: api.api.llm.$url().toString(),
+  });
 
   useKeyboard((key) => {
     if (key.name === "q") renderer.destroy();
@@ -54,12 +28,26 @@ export function LlmScreen() {
       width="100%"
     >
       <text fg="#7aa2f7">LLM Demo</text>
-      {llm.status === "loading" ? (
-        <text fg="#888888">thinking...</text>
-      ) : llm.status === "ok" ? (
-        <text fg="#9ece6a">{llm.text}</text>
+      <text fg="#888888">prompt:</text>
+      <input
+        value={prompt}
+        onChange={(value) => {
+          promptRef.current = value;
+          setPrompt(value);
+        }}
+        onSubmit={() => {
+          if (!isLoading) complete(promptRef.current);
+        }}
+        placeholder="Type a prompt and press Enter..."
+        width={60}
+      />
+      <text fg="#888888">response:</text>
+      {error ? (
+        <text fg="#f7768e">{error.message}</text>
       ) : (
-        <text fg="#f7768e">{llm.message}</text>
+        <text fg={completion ? "#9ece6a" : "#888888"}>
+          {completion || (isLoading ? "thinking..." : "(empty)")}
+        </text>
       )}
       <RouteInput />
       <NavBar active="llm" />

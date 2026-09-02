@@ -8,6 +8,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@ai-sdk/react": "^4.0.93",
     "@bun-hono-opentui/shared": "workspace:*",
     "@opentui/core": "^0.5.10",
     "@opentui/react": "^0.5.10",
