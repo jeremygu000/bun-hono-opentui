@@ -17,6 +17,21 @@
 - Run all current automated verification: `bun run typecheck`.
 - For server changes, additionally start it and check `http://localhost:3000/health`.
 
+## Workspace Package Layout
+
+- Each workspace package's `package.json` uses the conditional exports
+  map: `"exports": { ".": { "types": "./src/index.ts", "default": "./src/index.ts" } }`.
+  Do not use the string shorthand or array form.
+- The server keeps Hono routes and the `AppType` type in
+  `apps/server/src/app.ts` and exposes them under the `./app` subpath.
+  The root `./` entry is the Bun bootstrap (port, logging, fetch).
+- The CLI's typed RPC client (`apps/cli/src/lib/client.ts`) imports
+  `AppType` from `@bun-hono-opentui/server/app` and constructs
+  `hc<AppType>(API_URL)`. The `./app` subpath plus `import type` keep
+  the server bootstrap out of the CLI bundle.
+- `@bun-hono-opentui/server` is a `devDependency` of `@bun-hono-opentui/cli`,
+  not a runtime dependency.
+
 ## Constraints
 
 - Use Bun for package installation and scripts. Keep the single root `bun.lock` committed; do not add npm, pnpm, or Yarn lockfiles.
