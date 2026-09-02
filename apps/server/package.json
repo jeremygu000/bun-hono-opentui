@@ -2,6 +2,7 @@
   "name": "@bun-hono-opentui/server",
   "private": true,
   "type": "module",
+  "exports": "./src/index.ts",
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts",
