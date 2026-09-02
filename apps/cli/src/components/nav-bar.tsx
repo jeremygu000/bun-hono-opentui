@@ -6,6 +6,7 @@ const ITEMS: { name: RouteName; label: string }[] = [
   { name: "settings", label: "Settings" },
   { name: "llm", label: "LLM" },
   { name: "llmTest", label: "LLM Test" },
+  { name: "llmHybrid", label: "LLM Hybrid" },
 ];
 
 export function NavBar({ active }: { active: RouteName }) {

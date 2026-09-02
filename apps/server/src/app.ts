@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { streamText } from "ai";
+import { createTextStreamResponse, toTextStream } from "ai";
 import { createUIMessageStreamResponse, toUIMessageStream } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
@@ -79,6 +80,18 @@ export const app = new Hono()
 
     return new Response(stream, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  })
+  .post("/llm-hybrid", async (c) => {
+    const { prompt = "Say hi in one short sentence." } = await c.req.json<{
+      prompt?: string;
+    }>();
+    const result = streamText({
+      model: openrouter.chat("minimax/minimax-m3:free"),
+      prompt,
+    });
+    return createTextStreamResponse({
+      stream: toTextStream({ stream: result.stream }),
     });
   });
 

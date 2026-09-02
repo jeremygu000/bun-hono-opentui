@@ -4,6 +4,7 @@ export const routes = {
   settings: "/settings",
   llm: "/llm",
   llmTest: "/llm-test",
+  llmHybrid: "/llm-hybrid",
 } as const;
 
 export type RouteName = keyof typeof routes;
