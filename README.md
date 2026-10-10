@@ -58,6 +58,30 @@ AI_PROVIDER=openrouter bun run dev:server
 
 All generation and chat endpoints use the same provider and model settings.
 
+## Check Free OpenRouter Models
+
+Run from the repository root. The tool reads `OPENAI_API_KEY` from
+`apps/server/.env`, queries the live model catalog, and tests only text models
+with zero input, output, and request pricing:
+
+```sh
+bun run check:free-models
+bun run check:free-models --limit 5 --runs 2 --timeout 15
+```
+
+It reports successes, errors, rate limits, and timeouts, then ranks models by
+success rate and median time to the first visible text. Total completion time
+and whether the model followed the short test prompt are also displayed.
+Requests are sequential and spaced at least 3.1 seconds apart. Tests consume
+free request quotas. Reasoning is disabled by default; add `--reasoning` to
+compare with reasoning enabled. `--limit` selects the first models alphabetically.
+This is a short-response speed check, not a coding benchmark. The command prints
+a suggested launch command and does not change `.env`.
+
+Detailed usage, filtering rules, streaming metrics, and limitations:
+[中文](docs/openrouter-free-model-checker.zh-CN.md) ·
+[English](docs/openrouter-free-model-checker.en.md).
+
 ## Typed RPC Client
 
 The CLI consumes the server through [Hono's typed RPC client](https://hono.dev/docs/client/typescript):

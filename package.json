@@ -1,13 +1,17 @@
 {
   "name": "bun-hono-opentui",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev:server": "bun run --cwd apps/server dev",
     "dev:cli": "bun run --cwd apps/cli dev",
     "start:server": "bun run --cwd apps/server start",
     "start:cli": "bun run --cwd apps/cli start",
-    "typecheck": "bun run --cwd packages/shared typecheck && bun run --cwd apps/server typecheck && bun run --cwd apps/cli typecheck"
+    "typecheck": "bun run --cwd packages/shared typecheck && bun run --cwd apps/server typecheck && bun run --cwd apps/cli typecheck",
+    "check:free-models": "bun --env-file=apps/server/.env apps/server/src/scripts/check-free-models.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",
