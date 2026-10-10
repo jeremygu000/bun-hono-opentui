@@ -7,6 +7,7 @@ const chunkSchema = z.object({
   })).optional(),
 });
 
+// Upstream SSE parser used only by direct-text-strategy.
 // Keep reading through comments, role-only and reasoning chunks until text arrives.
 // Returning from pull without enqueueing can leave the downstream reader waiting.
 export function OpenaiTextStream(body: ReadableStream<Uint8Array>) {

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { OpenaiTextStream } from "./openai-text-stream";
+import { OpenaiTextStream } from "./direct-text-strategy.util";
 
 function upstream(chunks: string[]) {
   const encoder = new TextEncoder();

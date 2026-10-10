@@ -8,19 +8,19 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@ai-sdk/react": "^4.0.93",
+    "@ai-sdk/react": "^4.0.140",
     "@bun-hono-opentui/shared": "workspace:*",
-    "@opentui/core": "^0.5.10",
-    "@opentui/react": "^0.5.10",
-    "ai": "^7.0.91",
-    "hono": "^4.13.5",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-router": "^8.3.1"
+    "@opentui/core": "^0.6.0",
+    "@opentui/react": "^0.6.0",
+    "ai": "^7.0.137",
+    "hono": "^4.13.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router": "^8.4.0"
   },
   "devDependencies": {
     "@bun-hono-opentui/server": "workspace:*",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5"
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
   }
 }

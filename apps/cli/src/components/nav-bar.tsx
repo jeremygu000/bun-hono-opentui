@@ -5,8 +5,6 @@ const ITEMS: { name: RouteName; label: string }[] = [
   { name: "about", label: "About" },
   { name: "settings", label: "Settings" },
   { name: "llm", label: "LLM" },
-  { name: "llmTest", label: "LLM Test" },
-  { name: "llmHybrid", label: "LLM Hybrid" },
   { name: "chat", label: "Chat" },
 ];
 

@@ -10,7 +10,7 @@ import { RouteInput } from "./route-input";
 
 export function PromptScreen({ title, active }: {
   title: string;
-  active: "llm" | "llmTest" | "llmHybrid";
+  active: "llm";
 }) {
   const renderer = useRenderer();
   const [prompt, setPrompt] = useState("");

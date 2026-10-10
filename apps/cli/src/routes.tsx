@@ -3,8 +3,6 @@ export const routes = {
   about: "/about",
   settings: "/settings",
   llm: "/llm",
-  llmTest: "/llm-test",
-  llmHybrid: "/llm-hybrid",
   chat: "/chat",
 } as const;
 

@@ -1,12 +1,12 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { chatBodySchema, JEREMYCODE_NAME } from "@bun-hono-opentui/shared";
-import { aiConfig, aiModel } from "./lib/ai-config";
+import { providerConfig, chatModel } from "./lib/provider-config";
 import { parseChatInput } from "./lib/chat-input";
 import { createChatStrategies } from "./lib/chat-strategies";
 
 export function createApp(
-  strategies = createChatStrategies({ model: aiModel, config: aiConfig }),
+  strategies = createChatStrategies({ model: chatModel, config: providerConfig }),
 ) {
   return new Hono()
     .get("/", (c) => c.json({ message: `Welcome to ${JEREMYCODE_NAME}` }))

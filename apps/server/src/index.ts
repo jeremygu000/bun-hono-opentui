@@ -1,5 +1,5 @@
 import { app } from "./app";
-import { aiConfig } from "./lib/ai-config";
+import { providerConfig } from "./lib/provider-config";
 
 export type { AppType } from "./app";
 export { app } from "./app";
@@ -7,7 +7,7 @@ export { app } from "./app";
 const port = Number(Bun.env.PORT ?? 3000);
 
 console.log(`Hono server listening on http://localhost:${port}`);
-console.log(`AI provider: ${aiConfig.provider} | model: ${aiConfig.model}`);
+console.log(`AI provider: ${providerConfig.provider} | model: ${providerConfig.model}`);
 
 // Stream endpoints push text without waiting for client reads, so the
 // default 10s idle timeout would cut off long generations (e.g. the

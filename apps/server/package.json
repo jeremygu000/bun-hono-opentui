@@ -18,11 +18,11 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^4.0.56",
+    "@ai-sdk/openai": "^4.0.91",
     "@bun-hono-opentui/shared": "workspace:*",
-    "ai": "^7.0.90",
-    "hono": "^4.13.5",
-    "zod": "^4.5.4",
-    "@hono/zod-validator": "^0.7.6"
+    "ai": "^7.0.137",
+    "hono": "^4.13.13",
+    "zod": "^4.6.5",
+    "@hono/zod-validator": "^0.9.1"
   }
 }

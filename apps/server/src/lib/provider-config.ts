@@ -21,15 +21,15 @@ const providers = {
   },
 };
 
-export const aiConfig = {
+export const providerConfig = {
   ...providers[env.AI_PROVIDER],
   provider: env.AI_PROVIDER,
   model: env.AI_MODEL ?? providers[env.AI_PROVIDER].model,
 };
 
 const provider = createOpenAI({
-  baseURL: aiConfig.baseURL,
-  apiKey: aiConfig.apiKey,
+  baseURL: providerConfig.baseURL,
+  apiKey: providerConfig.apiKey,
 });
 
-export const aiModel = provider.chat(aiConfig.model);
+export const chatModel = provider.chat(providerConfig.model);
