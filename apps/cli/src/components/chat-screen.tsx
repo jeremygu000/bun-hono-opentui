@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router";
 import { useChat, type UIMessage } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import { useKeyboard, useRenderer } from "@opentui/react";
 import { chatStateSchema } from "@bun-hono-opentui/shared";
-import { api } from "../lib/client";
+import { chatStrategy } from "../lib/chat-config";
+import { createChatTransport } from "../lib/chat-transport";
 import { NavBar } from "./nav-bar";
 
 export function ChatScreen() {
@@ -18,7 +18,7 @@ export function ChatScreen() {
       : [],
   );
   const transport = useMemo(
-    () => new DefaultChatTransport({ api: api.api.chat.$url().toString() }),
+    () => createChatTransport(),
     [],
   );
 
@@ -38,6 +38,7 @@ export function ChatScreen() {
   }, [initialPrompt, sendMessage]);
 
   useKeyboard((key) => {
+    if (key.name === "escape") void stop();
     if (key.name === "q") renderer.destroy();
   });
 
@@ -52,6 +53,7 @@ export function ChatScreen() {
       width="100%"
     >
       <text fg="#7aa2f7">Chat</text>
+      <text fg="#888888">strategy: {chatStrategy} | POST /chat</text>
       <text fg="#888888">messages: {messages.length} | status: {status}</text>
       <box flexDirection="column" gap={1} width={70}>
         {messages.map((m) => (
@@ -73,6 +75,7 @@ export function ChatScreen() {
       </box>
       <box flexDirection="row" gap={1} width={70}>
         <input
+          focused
           value={input}
           onChange={setInput}
           onSubmit={() => {

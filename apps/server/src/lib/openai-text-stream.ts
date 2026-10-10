@@ -68,7 +68,7 @@ export function OpenaiTextStream(body: ReadableStream<Uint8Array>) {
         if (result.done) controller.close();
         else controller.enqueue(result.value);
       } catch (error) {
-        console.error("[AI /llm-test]", error instanceof Error ? error.message : "Stream failed");
+        console.error("[AI /chat direct-text]", error instanceof Error ? error.message : "Stream failed");
         controller.error(error);
       }
     },

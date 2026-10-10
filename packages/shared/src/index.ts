@@ -11,10 +11,23 @@ export const promptSchema = z.object({
 
 export type PromptBody = z.infer<typeof promptSchema>;
 
-export const chatBodySchema = z.object({
-  // UIMessage parts are extensible, so validate only the boundary shape here.
-  messages: z.array(z.unknown()).min(1, "messages must be a non-empty array"),
-});
+export const chatStrategySchema = z.enum(["sdk-ui", "direct-text", "sdk-text"]);
+
+export type ChatStrategy = z.infer<typeof chatStrategySchema>;
+
+// SDK validation on the server checks the nested UIMessage shape.
+// Exactly one input format is accepted; transport metadata is ignored.
+export const chatBodySchema = z.union([
+  promptSchema.extend({
+    strategy: chatStrategySchema.default("sdk-ui"),
+    messages: z.never().optional(),
+  }),
+  z.object({
+    strategy: chatStrategySchema.default("sdk-ui"),
+    messages: z.array(z.unknown()).min(1, "messages must be a non-empty array"),
+    prompt: z.never().optional(),
+  }),
+]);
 
 export type ChatBody = z.infer<typeof chatBodySchema>;
 

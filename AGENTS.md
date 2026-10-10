@@ -54,6 +54,26 @@
   server is the source of truth for shape; the CLI uses the same schema
   to confirm what arrived, not to redefine it.
 
+## Documentation Requirements
+
+- Write detailed technical learning/refactor documentation as separate Chinese
+  and English files under `docs/`, with links between the two versions.
+- Be as detailed as practical and use a conversational, approachable style.
+  Explain motivations, actual code paths, request/response formats, streaming
+  protocols, configuration, tradeoffs, and verification rather than only
+  listing changed files.
+- Keep technical terms, API names, identifiers, and protocol names in their
+  original form in Chinese documentation; do not translate technical terms.
+- Include ASCII diagrams when they help explain architecture, call chains,
+  data flows, or lifecycle behavior. Ground explanations in current code.
+- Preserve earlier documentation as historical records. Add new bilingual
+  documents for subsequent refactors rather than rewriting prior notes or
+  the README to describe a later implementation.
+- Keep `docs/refactor-timeline.md` limited to commit hashes and concise change
+  summaries. Detailed explanations belong in the bilingual documents.
+  Mark pending work as uncommitted until its real commit hash is available;
+  never invent a hash or attribute uncommitted work to an earlier commit.
+
 ## Constraints
 
 - Use Bun for package installation and scripts. Keep the single root `bun.lock` committed; do not add npm, pnpm, or Yarn lockfiles.
