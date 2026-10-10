@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useKeyboard, useRenderer } from "@opentui/react";
+import { promptSchema } from "@bun-hono-opentui/shared";
 import { api } from "../lib/client";
 import { NavBar } from "./nav-bar";
 import { RouteInput } from "./route-input";
@@ -7,22 +8,23 @@ import { RouteInput } from "./route-input";
 export function LlmHybridScreen() {
   const renderer = useRenderer();
   const [prompt, setPrompt] = useState("");
-  const promptRef = useRef("");
+  const [routeFocused, setRouteFocused] = useState(false);
   const [completion, setCompletion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error>();
 
-  async function submit() {
+  async function submit(input: unknown) {
+    const parsed = promptSchema.safeParse({ prompt: input });
+    if (!parsed.success) {
+      setError(new Error(parsed.error.issues[0]?.message ?? "Invalid prompt"));
+      return;
+    }
     setCompletion("");
     setError(undefined);
     setIsLoading(true);
 
     try {
-      const response = await fetch(api["llm-hybrid"].$url(), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: promptRef.current }),
-      });
+      const response = await api["llm-hybrid"].$post({ json: parsed.data });
 
       if (!response.ok || !response.body) {
         throw new Error(await response.text());
@@ -38,6 +40,9 @@ export function LlmHybridScreen() {
         result += decoder.decode(value, { stream: true });
         setCompletion(result);
       }
+      result += decoder.decode();
+      if (!result.trim()) throw new Error("Model returned no text. Please retry or switch models.");
+      setCompletion(result);
     } catch (cause) {
       setError(cause instanceof Error ? cause : new Error(String(cause)));
     } finally {
@@ -46,6 +51,7 @@ export function LlmHybridScreen() {
   }
 
   useKeyboard((key) => {
+    if (key.name === "tab") setRouteFocused((value) => !value);
     if (key.name === "q") renderer.destroy();
   });
 
@@ -61,16 +67,14 @@ export function LlmHybridScreen() {
     >
       <text fg="#7aa2f7">LLM Hybrid</text>
       <text fg="#888888">server uses streamText + createTextStreamResponse</text>
-      <text fg="#888888">client uses fetch + ReadableStream</text>
+      <text fg="#888888">client uses typed RPC + ReadableStream</text>
       <text fg="#888888">prompt:</text>
       <input
         value={prompt}
-        onChange={(value) => {
-          promptRef.current = value;
-          setPrompt(value);
-        }}
-        onSubmit={() => {
-          if (!isLoading) void submit();
+        focused={!routeFocused}
+        onChange={setPrompt}
+        onSubmit={(value) => {
+          if (!isLoading) void submit(value);
         }}
         placeholder="Type a prompt and press Enter..."
         width={60}
@@ -83,9 +87,9 @@ export function LlmHybridScreen() {
           {completion || (isLoading ? "thinking..." : "(empty)")}
         </text>
       )}
-      <RouteInput />
+      <RouteInput focused={routeFocused} />
       <NavBar active="llmHybrid" />
-      <text fg="#888888">Press q or Ctrl+C to exit.</text>
+      <text fg="#888888">Tab: switch input | q or Ctrl+C: exit.</text>
     </box>
   );
 }

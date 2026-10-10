@@ -38,6 +38,26 @@ bun run dev:cli
 
 Press `q` or `Ctrl+C` to exit the CLI. The server exposes `GET /` and `GET /health`. The CLI renders the home screen shown at the top of the README.
 
+## AI Model Configuration
+
+Set credentials in `apps/server/.env` (see `.env.example`). Both keys can be
+kept in the same file. `AI_PROVIDER` selects which key and endpoint to use:
+
+| AI_PROVIDER | Credential | Default model |
+| --- | --- | --- |
+| `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-flash` |
+| `openrouter` (default) | `OPENAI_API_KEY` | `nvidia/nemotron-3.5-lightning:free` |
+
+Set `AI_MODEL` to override the selected provider's default model. The model
+must be available from that provider. Restart the server after editing `.env`.
+For example, explicitly select OpenRouter for one run:
+
+```sh
+AI_PROVIDER=openrouter bun run dev:server
+```
+
+All generation and chat endpoints use the same provider and model settings.
+
 ## Typed RPC Client
 
 The CLI consumes the server through [Hono's typed RPC client](https://hono.dev/docs/client/typescript):
@@ -82,6 +102,15 @@ the CLI to reflect that.
 Shared compiler settings are defined in [`tsconfig.base.json`](./tsconfig.base.json). Each workspace package has its own `tsconfig.json` that extends this base configuration and includes only its own source files.
 
 The server package splits the Hono app definition (`src/app.ts`) from the Bun bootstrap (`src/index.ts`) so that the typed RPC client on the CLI side only needs the former. See `AGENTS.md` for the full workspace package layout.
+
+## Learning Notes
+
+How `/llm`, `/llm-test`, `/llm-hybrid`, and `/chat` connect the CLI to the
+server, including request bodies, streaming protocols, and a comparison of
+the three approaches:
+
+- [中文学习笔记](./docs/llm-streaming-notes.zh-CN.md)
+- [English learning notes](./docs/llm-streaming-notes.en.md)
 
 ## Contributing
 

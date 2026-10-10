@@ -1,73 +1,108 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router";
+import { useChat, type UIMessage } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { useKeyboard, useRenderer } from "@opentui/react";
 import { chatStateSchema } from "@bun-hono-opentui/shared";
 import { api } from "../lib/client";
+import { NavBar } from "./nav-bar";
 
 export function ChatScreen() {
+  const renderer = useRenderer();
   const location = useLocation();
   const parsed = chatStateSchema.safeParse(location.state);
-  const prompt = parsed.success ? parsed.data.prompt : "";
+  const initialPrompt = parsed.success ? parsed.data.prompt : "";
+  const [initialMessages] = useState<UIMessage[]>(
+    initialPrompt
+      ? [{ id: "user-1", role: "user", parts: [{ type: "text", text: initialPrompt }] }]
+      : [],
+  );
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: api.api.chat.$url().toString() }),
+    [],
+  );
 
-  const [reply, setReply] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error>();
+  const { messages, sendMessage, status, error, stop } = useChat({
+    id: "chat-demo",
+    messages: initialMessages,
+    transport,
+  });
+
+  const [input, setInput] = useState("");
+  const hasSentInitialPrompt = useRef(false);
 
   useEffect(() => {
-    if (!prompt) return;
-    const controller = new AbortController();
+    if (!initialPrompt || hasSentInitialPrompt.current) return;
+    hasSentInitialPrompt.current = true;
+    void sendMessage();
+  }, [initialPrompt, sendMessage]);
 
-    async function stream() {
-      setReply("");
-      setError(undefined);
-      setIsLoading(true);
-
-      try {
-        const response = await fetch(api["llm-hybrid"].$url(), {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
-          signal: controller.signal,
-        });
-
-        if (!response.ok || !response.body) {
-          throw new Error(await response.text());
-        }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let result = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          result += decoder.decode(value, { stream: true });
-          setReply(result);
-        }
-      } catch (cause) {
-        if ((cause as { name?: string })?.name === "AbortError") return;
-        setError(cause instanceof Error ? cause : new Error(String(cause)));
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    void stream();
-    return () => controller.abort();
-  }, [prompt]);
+  useKeyboard((key) => {
+    if (key.name === "q") renderer.destroy();
+  });
 
   return (
-    <box alignItems="center" flexDirection="column" gap={1} padding={2}>
-      <text fg="#7aa2f7">Chat Streaming</text>
-      <text fg="#888888">your prompt was:</text>
-      <text fg="#9ece6a">{prompt || "(empty)"}</text>
-      <text fg="#888888">response:</text>
-      {error ? (
-        <text fg="#f7768e">{error.message}</text>
-      ) : (
-        <text fg={reply ? "#9ece6a" : "#888888"}>
-          {reply || (isLoading ? "thinking..." : "(empty)")}
+    <box
+      alignItems="center"
+      flexDirection="column"
+      gap={1}
+      height="100%"
+      justifyContent="flex-start"
+      padding={2}
+      width="100%"
+    >
+      <text fg="#7aa2f7">Chat</text>
+      <text fg="#888888">messages: {messages.length} | status: {status}</text>
+      <box flexDirection="column" gap={1} width={70}>
+        {messages.map((m) => (
+          <box key={m.id} flexDirection="column">
+            <text fg="#7aa2f7">
+              {m.role === "user" ? "you" : m.role === "assistant" ? "ai" : m.role}
+            </text>
+            {m.parts.map((part, i) =>
+              part.type === "text" ? (
+                <text key={i} fg={m.role === "user" ? "#c0caf5" : "#9ece6a"}>
+                  {part.text ||
+                    (status === "streaming" && m.role === "assistant" ? "..." : "")}
+                </text>
+              ) : null,
+            )}
+          </box>
+        ))}
+        {error ? <text fg="#f7768e">error: {error.message}</text> : null}
+      </box>
+      <box flexDirection="row" gap={1} width={70}>
+        <input
+          value={input}
+          onChange={setInput}
+          onSubmit={() => {
+            const text = input.trim();
+            if (!text || status === "submitted" || status === "streaming") return;
+            setInput("");
+            sendMessage({ text });
+          }}
+          placeholder="Type a message and press Enter..."
+          width={56}
+        />
+        <text
+          fg={status === "submitted" || status === "streaming" ? "#e0af68" : "#888888"}
+        >
+          {status === "submitted" || status === "streaming" ? "stop" : "send"}
         </text>
-      )}
+      </box>
+      <box flexDirection="row" gap={1}>
+        <text
+          fg={status === "submitted" || status === "streaming" ? "#7aa2f7" : "#444444"}
+          attributes={status === "submitted" || status === "streaming" ? 1 : 0}
+          onMouseDown={() => {
+            if (status === "submitted" || status === "streaming") stop();
+          }}
+        >
+          [ press Esc to stop ]
+        </text>
+      </box>
+      <NavBar active="chat" />
+      <text fg="#888888">Press q or Ctrl+C to exit.</text>
     </box>
   );
 }

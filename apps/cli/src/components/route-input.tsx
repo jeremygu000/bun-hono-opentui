@@ -10,7 +10,7 @@ function buildPlaceholder(currentPath: string): string {
   return `You are at ${currentPath}. Try ${sample}`;
 }
 
-export function RouteInput() {
+export function RouteInput({ focused = true }: { focused?: boolean }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [value, setValue] = useState("");
@@ -40,7 +40,7 @@ export function RouteInput() {
       width="80%"
     >
       <input
-        focused={!error}
+        focused={focused && !error}
         onChange={setValue}
         onSubmit={(next) => submit(next as string)}
         placeholder={buildPlaceholder(pathname)}
